@@ -1,0 +1,27 @@
+dev:
+  host: 192.168.4.20
+  user: deployer
+  password: deployer123
+  stage: Internal Dev
+  deploy_path: /var/www/html/storefront
+  database_user: xxxx
+  database_password: xxxx
+  database_host: localhost
+  database_name: storefront
+  env: dev
+  database_backup_path: /home/deployer/database_backup
+  branch: test-branch-for-cicd
+
+qa:
+  host: xxxx
+  user: xxxx
+  password:
+  identity_file: ~
+  stage: Internal Qa
+  deploy_path: /var/www/html/xxxx
+  database_user: xxxx
+  database_password: xxxx
+  database_host: xxxx
+  database_name: xxxx
+  env: qa
+  database_backup_path: /home/deployer/xxxx

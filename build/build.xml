@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="MagentoStoreFront" default="build">                    
+  <property name="workspace" value="${basedir}" />
+  <property name="sourcedir" value="${basedir}/app" />
+  <property name="builddir" value="${workspace}/build" />
+  <property environment="env"/>
+  <property name="tagName" value="${env.GIT_TAG_NAME}" />
+  <target name="build"
+  depends="prepare,lint,deploy"/>
+  <target name="build-parallel" depends="prepare,lint,deploy"/>
+
+  <target name="clean" description="Cleanup build artifacts">
+    <delete dir="${builddir}/logs"/>
+  </target>
+
+  <target name="prepare" depends="clean" description="Prepare for build">
+    <mkdir dir="${builddir}/logs"/>
+  </target>
+
+  <target name="lint" description="Perform syntax check of sourcecode files">
+    <apply executable="php" failonerror="true">
+    <arg value="-l" />
+    <fileset dir="${sourcedir}/code/local">
+      <include name="**/*.php" />
+      <modified />
+    </fileset> 
+    <fileset dir="${sourcedir}/design/frontend">
+      <include name="**/*.phtml" />
+      <modified />
+    </fileset> 
+    <fileset dir="${sourcedir}/design/adminhtml">
+      <include name="**/*.phtml" />
+      <modified />
+    </fileset>          
+    </apply>
+  </target>
+  
+  <target name="deploy" depends="lint">
+    <echo message="Running deploy" />
+    <exec dir="${env.DEPLOYER}/" executable="/usr/local/bin/dep" failonerror="true">
+            <arg value="deploy"/>
+            <arg value="dev"/>
+	    <arg value="--tag=${env.GIT_TAG_NAME}"/>
+    </exec>
+  </target>
+  
+</project>
